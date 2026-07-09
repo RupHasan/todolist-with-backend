@@ -4,13 +4,14 @@ const port = 3000;
 let todo = [];
 
 app.use(express.json());
+app.use(express.static('.'));
 
 app.get('/todos', (req,res)=>{
     res.json(todo);
 })
 
 app.get('/', (req,res)=>{
-    res.send("Hello world!")
+    res.json(todo);
 })
 
 app.get("/todos/:id",(req,res)=>{
