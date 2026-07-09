@@ -6,7 +6,7 @@ let todo = [];
 app.use(express.json());
 
 app.get('/todos', (req,res)=>{
-    res.send("Your todos: NOTHING!")
+    res.json(todo);
 })
 
 app.get('/', (req,res)=>{
@@ -15,10 +15,10 @@ app.get('/', (req,res)=>{
 
 app.get("/todos/:id",(req,res)=>{
     const wantedId = parseInt(req.params.id);
-    const findTodo = todo.forEach(todo)
+    const findTodo = todo.find(td => td.id == wantedId)
     
-    if(todo[wantedId - 1] != undefined) {
-        res.json(todo[wantedId - 1]);
+    if(findTodo != undefined) {
+        res.json(findTodo);
     } else {
         res.status(404).send("Task not found in database")
     }
@@ -35,6 +35,47 @@ app.post('/todos',(req,res)=>{
     })
     
     res.json(todo[todoLength - 1]);
+})
+
+app.delete("/todos/:id",(req,res)=>{
+    const wantedId = parseInt(req.params.id);
+    const todoToDel = todo.find(td => td.id == wantedId);
+    
+    if (todoToDel) {
+        for (let i = 0; i < todo.length; i++){
+            let checkTodo = todo[i]
+            if(checkTodo.id == wantedId) {
+                todo.splice(i, 1);
+            }
+        } 
+        
+        res.status(204).send("todo deleted!")
+    } else {
+        res.status(404).send("Todo Not Found To Delete! 404 Error!")
+    }
+})
+
+app.put("/todos/:id", (req,res)=>{
+    const wantedId = parseInt(req.params.id);
+    let showErr = true;
+    
+    todo.forEach((task)=>{
+        if (task.id == wantedId){
+            showErr = false;
+            
+            if(task.done == false) {
+                task.done = true
+            } else {
+                task.done = false
+            }
+            
+            res.json(task);
+        }
+    })
+    
+    if(showErr) {
+        res.status(404).send("Task Not Found! 404 Error!")
+    }
 })
 
 app.listen(port, ()=>{
