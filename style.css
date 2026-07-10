@@ -1,3 +1,240 @@
-.todo-sub-container{
-    border: 4px solid black;
+/* ===== COLOR VARIABLES ===== */
+:root {
+    /* Primary palette */
+    --bg-body: #0f0f1a;
+    --bg-container: #1a1a2e;
+    --bg-input: #16213e;
+    --bg-card: #1f1f3a;
+
+    /* Text colors */
+    --text-primary: #e0e0ff;
+    --text-muted: #a0a0c0;
+
+    /* Accent colors */
+    --accent-blue: #6c63ff;
+    --accent-green: #4caf84;
+    --accent-red: #ff6b6b;
+    --accent-yellow: #ffd93d;
+
+    /* Buttons */
+    --btn-add: #6c63ff;
+    --btn-add-hover: #7b73ff;
+    --btn-done: #4caf84;
+    --btn-done-hover: #5acb9a;
+    --btn-undone: #ffd93d;
+    --btn-undone-hover: #ffe566;
+    --btn-delete: #ff6b6b;
+    --btn-delete-hover: #ff7f7f;
+
+    /* Borders & Shadows */
+    --border-radius: 12px;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --transition: 0.3s ease;
+}
+
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-body);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ===== CONTAINER ===== */
+#add-todo-container {
+    background: var(--bg-container);
+    padding: 30px 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(108, 99, 255, 0.15);
+}
+
+/* ===== INPUT ===== */
+#userInput {
+    flex: 1;
+    min-width: 200px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 16px;
+    outline: 2px solid transparent;
+    transition: var(--transition);
+}
+
+#userInput::placeholder {
+    color: var(--text-muted);
+}
+
+#userInput:focus {
+    outline-color: var(--accent-blue);
+}
+
+/* ===== ADD BUTTON ===== */
+#send-data {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    background: var(--btn-add);
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#send-data:hover {
+    background: var(--btn-add-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 99, 255, 0.35);
+}
+
+#send-data:active {
+    transform: translateY(0);
+}
+
+/* ===== TODO LIST ===== */
+#todo-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ===== TODO CARD ===== */
+.todo-sub-container {
+    background: var(--bg-card);
+    padding: 16px 24px;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-blue);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    transition: var(--transition);
+}
+
+.todo-sub-container:hover {
+    transform: translateX(4px);
+    border-left-color: var(--accent-green);
+}
+
+/* ===== TODO TEXT ===== */
+.todo-sub-container p {
+    font-size: 16px;
+    flex: 1;
+    min-width: 120px;
+}
+
+.todo-sub-container p:first-child {
+    font-weight: 500;
+}
+
+.todo-sub-container p:last-child {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+/* ===== BUTTONS INSIDE CARD ===== */
+.todo-sub-container button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* Done / Undone Toggle */
+.todo-change-btn {
+    background: var(--btn-done);
+    color: #fff;
+}
+
+.todo-change-btn:hover {
+    background: var(--btn-done-hover);
+    transform: scale(1.04);
+}
+
+/* Override when task is done (Undone state) */
+.todo-sub-container .todo-change-btn:has(+ .todo-del-btn) {
+    /* Will be handled by JS, but we keep fallback */
+}
+
+/* If you want to style based on done status, use JS to add class */
+.todo-sub-container .todo-change-btn.undone {
+    background: var(--btn-undone);
+    color: #1a1a2e;
+}
+
+.todo-sub-container .todo-change-btn.undone:hover {
+    background: var(--btn-undone-hover);
+}
+
+/* Delete Button */
+.todo-del-btn {
+    background: var(--btn-delete);
+    color: #fff;
+}
+
+.todo-del-btn:hover {
+    background: var(--btn-delete-hover);
+    transform: scale(1.04);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    #add-todo-container {
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    #userInput {
+        min-width: unset;
+        width: 100%;
+    }
+
+    #send-data {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .todo-sub-container {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 16px;
+    }
+
+    .todo-sub-container button {
+        width: 100%;
+    }
 }
